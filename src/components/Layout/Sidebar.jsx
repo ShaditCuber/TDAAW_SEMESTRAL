@@ -30,7 +30,7 @@ const Navbar = ({ mobileOpen, handleDrawerToggle }) => {
       <div className="px-4 py-6">
         <ul className="mt-6 space-y-1">
           {menuItems.map((item) => (
-            <li>
+            <li key={item.text}>
 
               <ListItem button key={item.text} component={Link} to={item.path}>
                 <ListItemIcon>{item.icon}</ListItemIcon>

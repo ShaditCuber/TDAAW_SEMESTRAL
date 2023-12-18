@@ -3,20 +3,23 @@ import { BrowserRouter } from 'react-router-dom';
 import RouterApp from '../Router';
 import { UsuarioProvider } from './context/AuthContext';
 import Layout from './components/Layout/Layout';
-
+import {Toaster} from 'sonner'
 const queryClient = new QueryClient();
 
 
 export default function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <UsuarioProvider>
-        <BrowserRouter>
-          <Layout>
-            <RouterApp />
-          </Layout>
-        </BrowserRouter>
-      </UsuarioProvider>
-    </QueryClientProvider>
+    <>
+      <Toaster richColors closeButton position="top-center" />
+      <QueryClientProvider client={queryClient}>
+        <UsuarioProvider>
+          <BrowserRouter>
+            <Layout>
+              <RouterApp />
+            </Layout>
+          </BrowserRouter>
+        </UsuarioProvider>
+      </QueryClientProvider>
+    </>
   );
 }

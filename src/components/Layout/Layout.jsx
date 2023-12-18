@@ -1,17 +1,10 @@
 // Layout.js
-import React, { useState } from 'react';
+import React from 'react';
 import Header from './Header';
 import Sidebar from './Sidebar';
-import { Box, CssBaseline, Toolbar,  } from '@mui/material';
-import { useUsuario } from '../../context/AuthContext';
 
 const Layout = ({ children }) => {
-    const [mobileOpen, setMobileOpen] = useState(false);
-    const { usuario: username } = useUsuario();
-
-    const handleDrawerToggle = () => {
-        setMobileOpen(!mobileOpen);
-    };
+    
 
     return (
         <div className="flex">

@@ -11,7 +11,6 @@ const UsuarioProvider = (props) => {
 
 
     const [usuario, setUsuario] = useState(null);
-    const [login, setLogin] = useState(false);
 
     const { mutate, isLoading: cargandoUsuario } = useMutation(useIniciarSesion, {
         onSuccess: async (response) => {
@@ -25,7 +24,6 @@ const UsuarioProvider = (props) => {
                 setToken(token);
             }
             getUsuario();
-            setLogin(true);
         },
     });
 
@@ -33,17 +31,6 @@ const UsuarioProvider = (props) => {
         getUsuario();
     }, []);
 
-    useEffect(() => {
-        if (login) {
-            if (!usuario?.perro_id) {
-                window.location = "/seleccionar";
-            }
-            else {
-                window.location = "/";
-            }
-            setLogin(false);
-        }
-    }, [usuario]);
 
     const loginUsuario = async (form) => {
         mutate(form);
@@ -53,18 +40,19 @@ const UsuarioProvider = (props) => {
         if (!getToken()) {
             return;
         }
-        try {
-            const response = await clienteAxios.get("/user/info");
-            console.log(response.data, 'Info');
-            if (response.data.status === "Token is Expired") {
-                deleteToken();
-                window.location = "/login";
-                return;
-            }
-            setUsuario(response.data);
-        } catch (error) {
-            window.location = "/login";
-        }
+        // try {
+        //     const response = await clienteAxios.get("/user/info");
+        //     console.log(response.data, 'Info');
+        //     if (response.data.status === "Token is Expired") {
+        //         deleteToken();
+        //         window.location = "/login";
+        //         return;
+        //     }
+        //     setUsuario(response.data);
+        // } catch (error) {
+        //     window.location = "/login";
+        // }
+        setUsuario("xd")
     };
 
 
@@ -72,7 +60,9 @@ const UsuarioProvider = (props) => {
         setUsuario(null);
         deleteToken();
         const { data } = await clienteAxios.get("auth/logout");
-        window.location = "/login";
+        // window.location = "/login";
+        window.location = "/";
+
     };
 
     const value = useMemo(() => {

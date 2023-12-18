@@ -29,6 +29,8 @@ const LogedInRoutes = () => {
         <>
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/inventario" element={<Inventory />} />
+                <Route path="/productos" element={<Products />} />
             </Routes>
         </>
     );
