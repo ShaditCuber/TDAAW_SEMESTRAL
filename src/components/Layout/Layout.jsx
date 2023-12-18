@@ -1,7 +1,7 @@
 // Layout.js
 import React, { useState } from 'react';
-import Navbar from './Navbar';
 import Header from './Header';
+import Sidebar from './Sidebar';
 import { Box, CssBaseline, Toolbar,  } from '@mui/material';
 import { useUsuario } from '../../context/AuthContext';
 
@@ -14,15 +14,17 @@ const Layout = ({ children }) => {
     };
 
     return (
-        <Box sx={{ display: 'flex' }}>
-            <CssBaseline />
-            <Header username={username} handleDrawerToggle={handleDrawerToggle} />
-            <Navbar mobileOpen={mobileOpen} handleDrawerToggle={handleDrawerToggle} />
-            <Box component="main" sx={{ flexGrow: 1, p: 3 , bgcolor : 'gray'  , width : '182.5vh' , height : '100.5vh'}}>
-                <Toolbar />
-                {children}
-            </Box>
-        </Box>
+        <div className="flex">
+            <Sidebar />
+            <div className="flex flex-col w-full h-screen p-2 bg-gray-200">
+                <Header />
+                <hr className="border-t-4 border-blue-200 " />
+
+                <main className="bg-gray-200 p-8 rounded-xl h-screen overflow-auto scrollbar-hide">
+                    {children}
+                </main>
+            </div>
+        </div>
     );
 };
 
