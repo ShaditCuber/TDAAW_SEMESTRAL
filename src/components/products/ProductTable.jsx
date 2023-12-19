@@ -13,14 +13,10 @@ const style = {
     p: 4,
 };
 
-const ProductTable = () => {
-    const [inventory, setInventory] = useState([]);
+const ProductTable = ({ inventory, handleDelete, productModal }) => {
     const [openModal, setOpenModal] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState(null);
-    const [pagination, setPagination] = useState({ currentPage: 1, links: [], total: 0, perPage: 10 });
-
     
-
     const handleOpenModal = (product) => {
         setSelectedProduct(product);
         setOpenModal(true);
@@ -30,55 +26,6 @@ const ProductTable = () => {
         setOpenModal(false);
     };
 
-    const handleBorrar = async (product_id) => {
-        const response = await axios.delete(`http://127.0.0.1:8000/api/products/delete?id=${product_id}`);
-        console.log(response.data)
-        setInventory(inventory.filter(item=>item.id != product_id))
-    }
-    const fetchInventory = async (page = 1) => {
-        try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/products/read?page=${page}`);
-            setInventory(response.data.data);
-            setPagination({
-                currentPage: response.data.meta.current_page,
-                links: response.data.meta.links,
-                total: response.data.meta.total,
-                perPage: response.data.meta.per_page
-            });
-        } catch (error) {
-            console.error('Error fetching inventory:', error);
-        }
-    };
-    useEffect(() => {
-        
-        fetchInventory();
-    }, []);
-
-    const renderPaginationButton = (link) => {
-        let buttonText;
-        switch (link.label) {
-            case '&laquo; Previous':
-                buttonText = 'Anterior';
-                break;
-            case 'Next &raquo;':
-                buttonText = 'Siguiente';
-                break;
-            default:
-                buttonText = link.label;
-        }
-
-        return (
-            <button
-                key={link.label}
-                disabled={!link.url}
-                onClick={() => fetchInventory(link.label.match(/Previous/) ? pagination.currentPage - 1 : pagination.currentPage + 1)}
-                className={`mx-1 px-4 py-2 ${link.active ? 'bg-blue-500 text-white' : 'bg-gray-200 text-gray-800'}`}
-            >
-                {buttonText}
-            </button>
-        );
-    };
-
 
     return (
         <div className="overflow-x-auto">
@@ -86,6 +33,7 @@ const ProductTable = () => {
                 <thead className="ltr:text-left rtl:text-right">
                     <tr>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Nombre</th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Bodega</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Traspaso Bodega</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Actualizar</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Borrar</th>
@@ -98,6 +46,8 @@ const ProductTable = () => {
                         inventory?.map((item) => (
                             <tr key={item.id}>
                                 <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center hover:bg-gray-100 cursor-pointer" onClick={() => handleOpenModal(item)}>{item.nombre}</td>
+                                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">{item.warehouse_name}</td>
+
                                 <td className="whitespace-nowrap px-4 py-2 text-center">
                                     <a
                                         href="#"
@@ -110,6 +60,7 @@ const ProductTable = () => {
                                     <a
                                         href="#"
                                         className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
+                                        onClick={() => productModal(item)}
                                     >
                                         Actualizar
                                     </a>
@@ -118,7 +69,7 @@ const ProductTable = () => {
                                     <a
                                         href="#"
                                         className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
-                                        onClick={()=> handleBorrar(item.id)}
+                                        onClick={() => handleDelete(item.id)}
                                         key={item.id}
                                     >
                                         Borrar
@@ -149,9 +100,6 @@ const ProductTable = () => {
                     </p>
                 </Box>
             </Modal>
-            <div className="flex justify-center mt-4">
-                {pagination.links.map(renderPaginationButton)}
-            </div>
         </div>
     );
 };

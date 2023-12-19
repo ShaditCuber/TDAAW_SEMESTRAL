@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Grid, Toolbar, Typography, Button, Modal, TextField, FormControl, InputLabel, Input, Select, MenuItem } from '@mui/material';
+import { Box, Grid, Toolbar, Typography, Button, Modal, TextField, FormControl, InputLabel, Input, Select, MenuItem, CircularProgress } from '@mui/material';
 import ProductTable from './ProductTable';
 import axios from 'axios';
-import {toast} from 'sonner'
+import { toast } from 'sonner'
+import { useCreateProduct, useDeleteProduct, useProducts, useUpdateProduct } from '../../queries/product/ProductQuery';
+import { useQueryClient } from '@tanstack/react-query';
+import { useWarehouses } from '../../queries/warehouse/WarehouseQuery';
+import ModalProduct from './ModalProduct';
 
 const style = {
     position: 'absolute',
@@ -16,76 +20,83 @@ const style = {
 };
 
 const Products = () => {
+    const [page, setPage] = useState(1);
     const [open, setOpen] = useState(false);
-    const [warehouses, setWarehouses] = useState([]);
-    const [formData, setFormData] = useState({
-        nombre: '',
-        warehouse_id: '',
-        precio_unitario: '',
-        imagen: null,
-    });
+    const [formData, setFormData] = useState({ nombre: '', warehouse_id: '', precio_unitario: '' });
 
-    const fetchWarehouses = async () => {
-        try {
-            const response = await axios.get('http://127.0.0.1:8000/api/warehouse/read', {});
-            setWarehouses(response.data.rsp);
-        } catch (error) {
-            console.error('Error fetching warehouses:', error);
-        }
+    const { data: productsData, isLoading, isError } = useProducts(page);
+    const { data: warehousesData } = useWarehouses();
+
+    const createProductMutation = useCreateProduct();
+    const deleteMutation = useDeleteProduct();
+    const updateProductMutation = useUpdateProduct();
+
+    const handleChangePage = (newPage) => {
+        setPage(newPage);
     };
 
-    useEffect(() => {
-        fetchWarehouses();
-    }, []);
-
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
-
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value,
-        });
+    const handleDelete = (productId) => {
+        deleteMutation.mutate(productId);
     };
 
-
-    const resetInputs = () => {
-        setFormData({
-            nombre: '',
-            warehouse_id: '',
-            precio_unitario: '',
-            imagen: null,
-         })
+    const onOpenModal = () => {
+        setFormData({ nombre: '', warehouse_id: '', precio_unitario: '' });
+        setOpen(true);
     }
 
+    const onCloseModal = () => {
+        setOpen(false);
+    }
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
+    const handleSubmit = async (formData) => {
+
         const data = new FormData();
         data.append('nombre', formData.nombre);
         data.append('warehouse_id', formData.warehouse_id);
         data.append('precio_unitario', formData.precio_unitario);
         data.append('imagen', formData.imagen);
 
-        const response = await axios.post('http://127.0.0.1:8000/api/products/create', data, {});
-        const msg = response.data.msg;
-        if (response.status == 203) {
-            toast.error(msg)
-            resetInputs()
+        console.log(formData)
+        if (formData.id) {
+            updateProductMutation.mutate(formData, {
+                onSuccess: (data) => {
+                    toast.success(data.msg);
+                    onCloseModal();
+                },
+                onError: (error) => {
+                    toast.error(error.response.data.msg);
+                }
+            });
         } else {
-            toast.success(msg)
-            handleClose()
-            resetInputs()
+            createProductMutation.mutate(formData, {
+                onSuccess: (data) => {
+                    toast.success(data.msg);
+                    onCloseModal();
+                },
+                onError: (error) => {
+                    toast.error(error.response.data.msg);
+                }
+            });
         }
 
-        // try {
-        //     console.log(response);
-        //     handleClose();
-        // } catch (error) {
-        //     console.log('xd')
-        // }
     };
+
+    const productModal = (product) => {
+        setOpen(true);
+        console.log(product)
+        setFormData({
+            id: product.id,
+            nombre: product.nombre,
+            precio_unitario: product.precio_unitario,
+        });
+    };
+
+    if (isLoading) return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <CircularProgress />
+        </Box>
+    )
+    if (isError) return <div>Error al cargar los productos</div>;
 
     return (
         <Box sx={{ flexGrow: 1, width: '100%', height: '100%' }}>
@@ -93,73 +104,33 @@ const Products = () => {
             <Typography variant="h4" component="h2" sx={{ my: 2 }}>
                 Productos
             </Typography>
-            <Button variant="contained" onClick={handleOpen} sx={{ mb: 5 }}>
+            <Button variant="contained" onClick={() => onOpenModal()} sx={{ mb: 5 }}>
                 Añadir Producto
             </Button>
-            <Modal
+            <ModalProduct
                 open={open}
-                onClose={handleClose}
-                aria-labelledby="modal-modal-title"
-                aria-describedby="modal-modal-description"
-            >
-                <Box sx={style} component="form" onSubmit={handleSubmit}>
-                    <Typography id="modal-modal-title" variant="h6" component="h2">
-                    Añadir Nuevo Producto
-                    </Typography>
-                    <TextField
-                        name="nombre"
-                        label="Nombre"
-                        value={formData.nombre}
-                        onChange={handleInputChange}
-                        margin="normal"
-                        fullWidth
-                    />
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel id="warehouse-select-label">Bodega</InputLabel>
-                        <Select
-                            labelId="warehouse-select-label"
-                            id="warehouse_id"
-                            name="warehouse_id"
-                            value={formData.warehouse_id}
-                            label="Warehouse ID"
-                            onChange={handleInputChange}
-                        >
-                            {warehouses.map((warehouse) => (
-                                <MenuItem key={warehouse.id} value={warehouse.id}>
-                                    Bodega {warehouse.nombre_bodega}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    <TextField
-                        name="precio_unitario"
-                        label="Precio Unitario"
-                        value={formData.precio_unitario}
-                        onChange={handleInputChange}
-                        margin="normal"
-                        fullWidth
-                    />
-                    {/* <InputLabel htmlFor="imagen">Imagen</InputLabel>
-
-                    <FormControl margin="normal" fullWidth>
-                        <Input
-                            id="imagen"
-                            name="imagen"
-                            type="file"
-                            onChange={handleFileChange}
-                        />
-                    </FormControl> */}
-                    <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-                        Añadir
-                    </Button>
-                </Box>
-            </Modal>
-
+                handleClose={onCloseModal}
+                warehousesData={warehousesData}
+                handleSubmit={handleSubmit}
+                initialFormData={formData}
+            />
             <Grid container spacing={2} sx={{ width: '100%' }}>
                 <Grid item xs={12}>
-                    <ProductTable />
+                    <ProductTable
+                        inventory={productsData.data}
+                        handleDelete={handleDelete}
+                        productModal={productModal}
+                    />
                 </Grid>
             </Grid>
+            <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+                <Button onClick={() => handleChangePage(page - 1)} disabled={page === 1}>
+                    Anterior
+                </Button>
+                <Button onClick={() => handleChangePage(page + 1)} disabled={productsData?.meta?.last_page === page}>
+                    Siguiente
+                </Button>
+            </Box>
         </Box>
     );
 };
