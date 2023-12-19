@@ -19,6 +19,8 @@ const ProductTable = () => {
     const [selectedProduct, setSelectedProduct] = useState(null);
     const [pagination, setPagination] = useState({ currentPage: 1, links: [], total: 0, perPage: 10 });
 
+    
+
     const handleOpenModal = (product) => {
         setSelectedProduct(product);
         setOpenModal(true);
