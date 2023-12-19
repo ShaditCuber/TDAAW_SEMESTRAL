@@ -1,15 +1,12 @@
 // Navbar.js
-import React, { useEffect } from 'react';
+import React from 'react';
 import HomeIcon from '@mui/icons-material/Home';
 import InventoryIcon from '@mui/icons-material/Business';
 import OrderIcon from '@mui/icons-material/Receipt';
 import CustomerIcon from '@mui/icons-material/People';
 import { Link } from 'react-router-dom';
-import useMediaQuery from '@mui/material/useMediaQuery';
 import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
-import { useTheme } from '@emotion/react';
 
-const drawerWidth = 240;
 
 const menuItems = [
   { text: 'Inicio', icon: <HomeIcon />, path: '/' },
