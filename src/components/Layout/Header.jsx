@@ -22,10 +22,11 @@ const Header = () => {
             <div className="">
                 <h1 className="text-2xl font-bold text-gray-900 sm:text-3xl">Taller de Desarrollo Web</h1>
             </div>
+            
             <div className="px-4 py-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-end gap-4">
                     <div className="flex items-center gap-4">
-                        
+
 
                         <a
                             href="#"

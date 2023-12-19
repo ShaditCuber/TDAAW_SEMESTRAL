@@ -34,7 +34,6 @@ const ProductTable = ({ inventory, handleDelete, productModal }) => {
                     <tr>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Nombre</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Bodega</th>
-                        <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Traspaso Bodega</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Actualizar</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Borrar</th>
                         <th className="px-4 py-2"></th>
@@ -48,14 +47,6 @@ const ProductTable = ({ inventory, handleDelete, productModal }) => {
                                 <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center hover:bg-gray-100 cursor-pointer" onClick={() => handleOpenModal(item)}>{item.nombre}</td>
                                 <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">{item.warehouse_name}</td>
 
-                                <td className="whitespace-nowrap px-4 py-2 text-center">
-                                    <a
-                                        href="#"
-                                        className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
-                                    >
-                                        Traspaso
-                                    </a>
-                                </td>
                                 <td className="whitespace-nowrap px-4 py-2 text-center">
                                     <a
                                         href="#"
