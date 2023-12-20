@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Modal, Box } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Modal, Box, Button } from '@mui/material';
 import { ConfirmModal } from '../Modals/Confirm';
 
 const style = {
@@ -13,15 +13,15 @@ const style = {
     p: 4,
 };
 
-const ProductTable = ({ inventory, handleDelete, productModal }) => {
+const WarehouseTable = ({ warehouse, handleDelete, warehouseModal }) => {
     const [openModal, setOpenModal] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState(null);
+    const [selectedWarehouse, setSelectedWarehouse] = useState(null);
 
     const [confirmModalOpen, setConfirmModalOpen] = useState(false);
-    const [deleteProductId, setDeleteProductId] = useState(null);
+    const [deleteWarehouseId, setDeleteWarehouseId] = useState(null);
 
     const handleOpenConfirmModal = (id) => {
-        setDeleteProductId(id);
+        setDeleteWarehouseId(id);
         setConfirmModalOpen(true);
     };
 
@@ -30,13 +30,12 @@ const ProductTable = ({ inventory, handleDelete, productModal }) => {
     };
 
     const handleConfirmDelete = () => {
-        handleDelete(deleteProductId);
+        handleDelete(deleteWarehouseId);
         handleCloseConfirmModal();
     };
 
-
-    const handleOpenModal = (product) => {
-        setSelectedProduct(product);
+    const handleOpenModal = (warehouse) => {
+        setSelectedWarehouse(warehouse);
         setOpenModal(true);
     };
 
@@ -51,7 +50,8 @@ const ProductTable = ({ inventory, handleDelete, productModal }) => {
                 <thead className="ltr:text-left rtl:text-right">
                     <tr>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Nombre</th>
-                        <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Bodega</th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Descripción</th>
+                        <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Dirección</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Actualizar</th>
                         <th className="whitespace-nowrap px-4 py-2 font-medium text-gray-900">Borrar</th>
                         <th className="px-4 py-2"></th>
@@ -60,16 +60,17 @@ const ProductTable = ({ inventory, handleDelete, productModal }) => {
 
                 <tbody className="divide-y divide-gray-200">
                     {
-                        inventory?.map((item) => (
+                        warehouse?.map((item) => (
                             <tr key={item.id}>
-                                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center hover:bg-gray-100 cursor-pointer" onClick={() => handleOpenModal(item)}>{item.nombre}</td>
-                                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">{item.warehouse_name}</td>
+                                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center hover:bg-gray-100 cursor-pointer" onClick={() => handleOpenModal(item)}>Bodega {item.nombre_bodega}</td>
+                                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">{item.descripcion_bodega}</td>
+                                <td className="whitespace-nowrap px-4 py-2 font-medium text-gray-900 text-center">{item.direccion_bodega}</td>
 
                                 <td className="whitespace-nowrap px-4 py-2 text-center">
                                     <a
                                         href="#"
                                         className="inline-block rounded bg-indigo-600 px-4 py-2 text-xs font-medium text-white hover:bg-indigo-700"
-                                        onClick={() => productModal(item)}
+                                        onClick={() => warehouseModal(item)}
                                     >
                                         Actualizar
                                     </a>
@@ -93,30 +94,27 @@ const ProductTable = ({ inventory, handleDelete, productModal }) => {
             <Modal
                 open={openModal}
                 onClose={handleCloseModal}
-                aria-labelledby="product-history-title"
-                aria-describedby="product-history-description"
+                aria-labelledby="warehouse-history-title"
+                aria-describedby="warehouse-history-description"
             >
                 <Box sx={style}>
-                    <h2 id="product-history-title">Historial del Producto</h2>
-                    <p id="product-history-description">
-                        {/* Aquí puedes incluir más detalles del producto seleccionado */}
-                        {/* Por ejemplo, si tienes un componente que muestra el historial, puedes usarlo aquí: */}
-                        {/* {selectedProduct && <ProductHistory productId={selectedProduct.id} />} */}
-                        {/* O simplemente mostrar información del producto: */}
-                        ID: {selectedProduct?.id}<br />
-                        Nombre: {selectedProduct?.nombre}
-                        {/* ... más detalles ... */}
+                    <h2 id="warehouse-history-title">Historial de bodega</h2>
+                    <p id="warehouse-history-description">
+                        ID: {selectedWarehouse?.id}<br />
+                        Nombre: {selectedWarehouse?.nombre_bodega}
                     </p>
                 </Box>
             </Modal>
+
             <ConfirmModal
-                descripcion={`¿Estás seguro que deseas eliminar el producto?`}
+                descripcion={`¿Estás seguro que deseas eliminar la bodega?`}
                 confirmModalOpen={confirmModalOpen}
                 handleCloseConfirmModal={handleCloseConfirmModal}
                 handleConfirmDelete={handleConfirmDelete}
             />
+
         </div>
     );
 };
 
-export default ProductTable;
+export default WarehouseTable;

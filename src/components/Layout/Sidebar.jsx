@@ -1,18 +1,20 @@
 // Navbar.js
 import React from 'react';
 import HomeIcon from '@mui/icons-material/Home';
-import InventoryIcon from '@mui/icons-material/Business';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import OrderIcon from '@mui/icons-material/Receipt';
 import CustomerIcon from '@mui/icons-material/People';
+import WarehouseIcon from '@mui/icons-material/Warehouse';
 import { Link } from 'react-router-dom';
 import { ListItem, ListItemIcon, ListItemText } from '@mui/material';
 
 
 const menuItems = [
   { text: 'Inicio', icon: <HomeIcon />, path: '/' },
-  { text: 'Inventario', icon: <InventoryIcon />, path: '/inventario' },
+  { text: 'Bodegas', icon: <WarehouseIcon />, path: '/bodegas' },
   { text: 'Productos', icon: <OrderIcon />, path: '/productos' },
-  { text: 'Compradores', icon: <CustomerIcon />, path: '/compradores' },
+  { text: 'Inventario', icon: <InventoryIcon />, path: '/inventario' },
+  { text: 'Compradores', icon: <CustomerIcon />, path: '/compradores' }
 ];
 
 const blackColor = '#00000';

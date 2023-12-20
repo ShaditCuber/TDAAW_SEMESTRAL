@@ -13,7 +13,7 @@ const style = {
     p: 4,
 };
 
-const ModalProduct = ({ open, handleClose, warehousesData, handleSubmit, initialFormData }) => {
+const ModalWarehouse = ({ open, handleClose, handleSubmit, initialFormData }) => {
     const [formData, setFormData] = useState(initialFormData);
 
     useEffect(() => {
@@ -30,9 +30,9 @@ const ModalProduct = ({ open, handleClose, warehousesData, handleSubmit, initial
 
     const resetInputs = () => {
         setFormData({
-            nombre: '',
-            warehouse_id: '',
-            precio_unitario: '',
+            nombre_bodega: '',
+            descripcion_bodega: '',
+            direccion_bodega: '',
         });
     };
 
@@ -46,7 +46,7 @@ const ModalProduct = ({ open, handleClose, warehousesData, handleSubmit, initial
             return;
         }
 
-        if (!formData.nombre.trim() || !formData.warehouse_id || !formData.precio_unitario) {
+        if (!formData.nombre_bodega.trim()) {
             toast.error("Por favor, completa todos los campos requeridos.");
             return;
         }
@@ -63,56 +63,44 @@ const ModalProduct = ({ open, handleClose, warehousesData, handleSubmit, initial
         >
             <Box sx={style} component="form" onSubmit={handleFormSubmit}>
                 <Typography id="modal-modal-title" variant="h6" component="h2">
-                    {initialFormData.id ? 'Actualizar Producto' : 'Añadir Nuevo Producto'}
+                    {initialFormData.id ? 'Actualizar Bodega' : 'Añadir Nuevo Bodega'}
                 </Typography>
                 <TextField
-                    name="nombre"
-                    label="Nombre"
-                    value={formData.nombre}
+                    name="nombre_bodega"
+                    label="Nombre Bodega"
+                    value={formData.nombre_bodega}
                     onChange={handleInputChange}
                     margin="normal"
                     fullWidth
                 />
-                {formData.id ? null : (
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel id="warehouse-select-label">Bodega</InputLabel>
-                        <Select
-                            labelId="warehouse-select-label"
-                            id="warehouse_id"
-                            name="warehouse_id"
-                            value={formData.warehouse_id}
-                            label="Warehouse ID"
-                            onChange={handleInputChange}
-                        >
-                            {warehousesData?.map((warehouse) => (
-                                <MenuItem key={warehouse.id} value={warehouse.id}>
-                                    Bodega {warehouse.nombre_bodega}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    )}
                 <TextField
-                    name="precio_unitario"
-                    label="Precio Unitario"
-                    value={formData.precio_unitario}
+                    name="descripcion_bodega"
+                    label="Descripción Bodega"
+                    value={formData.descripcion_bodega}
                     onChange={handleInputChange}
                     margin="normal"
                     fullWidth
-                    type='number'
-                    inputProps={{ min: "0", step: "1" }}
+                />
+                <TextField
+                    name="direccion_bodega"
+                    label="Dirección Bodega"
+                    value={formData.direccion_bodega}
+                    onChange={handleInputChange}
+                    margin="normal"
+                    fullWidth
                 />
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Button variant="contained" sx={{ mt: 2,  background: 'red' }} onClick={handleClose}>
+                    <Button variant="contained" sx={{ mt: 2, background: 'red' }} onClick={handleClose}>
                         Salir
                     </Button>
                     <Button type="submit" variant="contained" sx={{ mt: 2 }}>
                         {initialFormData.id ? 'Actualizar' : 'Añadir'}
                     </Button>
                 </Box>
+                
             </Box>
         </Modal>
     );
 };
 
-export default ModalProduct;
+export default ModalWarehouse;

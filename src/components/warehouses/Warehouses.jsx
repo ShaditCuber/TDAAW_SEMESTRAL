@@ -1,37 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import { Box, Grid, Toolbar, Typography, Button, Modal, TextField, FormControl, InputLabel, Input, Select, MenuItem, CircularProgress } from '@mui/material';
-import ProductTable from './ProductTable';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { Box, Grid, Toolbar, Typography, Button,CircularProgress } from '@mui/material';
+import WarehouseTable from './WarehouseTable';
 import { toast } from 'sonner'
-import { useCreateProduct, useDeleteProduct, useProducts, useUpdateProduct } from '../../queries/product/ProductQuery';
-import { useQueryClient } from '@tanstack/react-query';
-import { useWarehousesLimit } from '../../queries/warehouse/WarehouseQuery';
-import ModalProduct from './ModalProduct';
+import { useCreateWarehouse, useDeleteWarehouse, useUpdateWarehouse } from '../../queries/warehouse/WarehouseQuery';
+import { useWarehouses } from '../../queries/warehouse/WarehouseQuery';
+import ModalWarehouse from './ModalWarehouse';
 
 
-const Products = () => {
+
+const Warehouses = () => {
     const [page, setPage] = useState(1);
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState({ nombre: '', warehouse_id: '', precio_unitario: '' });
 
-    const { data: productsData, isLoading, isError } = useProducts(page);
-    const { data: warehousesData } = useWarehousesLimit();
+    const { data: warehousesData , isLoading, isError } = useWarehouses();
 
-    const createProductMutation = useCreateProduct();
-    const deleteMutation = useDeleteProduct();
-    const updateProductMutation = useUpdateProduct();
+    const createWarehouseMutation = useCreateWarehouse();
+    const deleteMutation = useDeleteWarehouse();
+    const updateWarehouseMutation = useUpdateWarehouse();
 
     const handleChangePage = (newPage) => {
         setPage(newPage);
     };
 
-    const handleDelete = (productId) => {
-        deleteMutation.mutate(productId);
-        toast.success('Producto eliminado Correctamente');
+    const handleDelete = (warehouseId) => {
+        deleteMutation.mutate(warehouseId);
     };
 
     const onOpenModal = () => {
-        setFormData({ nombre: '', warehouse_id: '', precio_unitario: '' });
+        setFormData({ nombre_bodega: '', descripcion_bodega: '', direccion_bodega: '' });
         setOpen(true);
     }
 
@@ -42,13 +39,13 @@ const Products = () => {
     const handleSubmit = async (formData) => {
 
         const data = new FormData();
-        data.append('nombre', formData.nombre);
-        data.append('warehouse_id', formData.warehouse_id);
-        data.append('precio_unitario', formData.precio_unitario);
+        data.append('nombre_bodega', formData.nombre);
+        data.append('descripcion_bodega', formData.warehouse_id);
+        data.append('direccion_bodega', formData.precio_unitario);
 
         console.log(formData)
         if (formData.id) {
-            updateProductMutation.mutate(formData, {
+            updateWarehouseMutation.mutate(formData, {
                 onSuccess: (data) => {
                     toast.success(data.msg);
                     onCloseModal();
@@ -58,7 +55,7 @@ const Products = () => {
                 }
             });
         } else {
-            createProductMutation.mutate(formData, {
+            createWarehouseMutation.mutate(formData, {
                 onSuccess: (data) => {
                     toast.success(data.msg);
                     onCloseModal();
@@ -71,13 +68,14 @@ const Products = () => {
 
     };
 
-    const productModal = (product) => {
+    const warehouseModal = (warehouse) => {
         setOpen(true);
-        console.log(product)
+        console.log(warehouse)
         setFormData({
-            id: product.id,
-            nombre: product.nombre,
-            precio_unitario: product.precio_unitario,
+            id: warehouse.id,
+            nombre_bodega: warehouse.nombre_bodega,
+            descripcion_bodega: warehouse.descripcion_bodega,
+            direccion_bodega: warehouse.direccion_bodega,
         });
     };
 
@@ -86,24 +84,30 @@ const Products = () => {
             <CircularProgress />
         </Box>
     )
-    if (isError) return <div>Error al cargar los productos</div>;
 
+    if (isError) return <div>Error al cargar las bodegas</div>;
+    
     return (
         <Box sx={{ flexGrow: 1, width: '100%', height: '100%' }}>
             <Toolbar />
             <Typography variant="h4" component="h2" sx={{ my: 2 }}>
-                Productos
+                Bodegas
             </Typography>
             <Button variant="contained" onClick={() => onOpenModal()} sx={{ mb: 5 }}>
-                Añadir Producto
+                Añadir Bodega
             </Button>
-            
+            <ModalWarehouse
+                open={open}
+                handleClose={onCloseModal}
+                handleSubmit={handleSubmit}
+                initialFormData={formData}
+            />
             <Grid container spacing={2} sx={{ width: '100%' }}>
                 <Grid item xs={12}>
-                    <ProductTable
-                        inventory={productsData.data}
+                    <WarehouseTable
+                        warehouse={warehousesData.data}
                         handleDelete={handleDelete}
-                        productModal={productModal}
+                        warehouseModal={warehouseModal}
                     />
                 </Grid>
             </Grid>
@@ -111,19 +115,12 @@ const Products = () => {
                 <Button onClick={() => handleChangePage(page - 1)} disabled={page === 1}>
                     Anterior
                 </Button>
-                <Button onClick={() => handleChangePage(page + 1)} disabled={productsData?.meta?.last_page === page}>
+                <Button onClick={() => handleChangePage(page + 1)} disabled={warehousesData?.last_page === page}>
                     Siguiente
                 </Button>
             </Box>
-            <ModalProduct
-                open={open}
-                handleClose={onCloseModal}
-                warehousesData={warehousesData}
-                handleSubmit={handleSubmit}
-                initialFormData={formData}
-            />
         </Box>
     );
 };
 
-export default Products;
+export default Warehouses;

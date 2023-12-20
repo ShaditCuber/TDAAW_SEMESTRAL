@@ -23,6 +23,10 @@ const updateProduct = async (formData) => {
 }
 
 
+const fetchProductLimit = async () => {
+    const { data } = await clienteAxios.get(`/products/read?limit=100000`);
+    return data;
+}
 
 export const useProducts = (page) => {
     return useQuery(['products', page], () => fetchProducts(page), {
@@ -64,3 +68,6 @@ export const useUpdateProduct = () => {
     })
 }
 
+export const useProductsLimit = () => {
+    return useQuery(['productsLimit', fetchProductLimit], () => fetchProductLimit());
+};

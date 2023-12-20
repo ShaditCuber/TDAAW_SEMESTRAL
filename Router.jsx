@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import { Home } from "./src/components/Home/Home";
 import Inventory from "./src/components/inventario/Inventory";
 import Products from "./src/components/products/Products";
+import Warehouses from "./src/components/warehouses/Warehouses";
 
 
 const RouterApp = () => {
@@ -17,6 +18,8 @@ const NotLogedRoutes = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/inventario" element={<Inventory />} />
                 <Route path="/productos" element={<Products />} />
+                <Route path="/bodegas" element={<Warehouses />} />
+
 
 
             </Routes>
