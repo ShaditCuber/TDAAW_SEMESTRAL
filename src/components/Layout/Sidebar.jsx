@@ -14,7 +14,6 @@ const menuItems = [
   { text: 'Bodegas', icon: <WarehouseIcon />, path: '/bodegas' },
   { text: 'Productos', icon: <OrderIcon />, path: '/productos' },
   { text: 'Inventario', icon: <InventoryIcon />, path: '/inventario' },
-  { text: 'Compradores', icon: <CustomerIcon />, path: '/compradores' }
 ];
 
 const blackColor = '#00000';
