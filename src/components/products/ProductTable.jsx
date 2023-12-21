@@ -95,19 +95,31 @@ const ProductTable = ({ inventory, handleDelete, productModal }) => {
                 onClose={handleCloseModal}
                 aria-labelledby="product-history-title"
                 aria-describedby="product-history-description"
+                className="flex items-center justify-center p-4"
             >
-                <Box sx={style}>
-                    <h2 id="product-history-title">Historial del Producto</h2>
-                    <p id="product-history-description">
-                        {/* Aquí puedes incluir más detalles del producto seleccionado */}
-                        {/* Por ejemplo, si tienes un componente que muestra el historial, puedes usarlo aquí: */}
-                        {/* {selectedProduct && <ProductHistory productId={selectedProduct.id} />} */}
-                        {/* O simplemente mostrar información del producto: */}
-                        ID: {selectedProduct?.id}<br />
-                        Nombre: {selectedProduct?.nombre}
-                        {/* ... más detalles ... */}
-                    </p>
-                </Box>
+                <div className="bg-white rounded-lg shadow-xl w-80">
+                    <div className="p-4 border-b border-gray-200">
+                        <h2 id="warehouse-history-title" className="text-lg font-semibold text-gray-700">
+                            Datos de Productos
+                        </h2>
+                    </div>
+                    <div className="p-4">
+                        <p id="warehouse-history-description" className="text-gray-600">
+                            <strong>Nombre:</strong> {selectedProduct?.nombre} <br />
+                            <strong>Descripcion:</strong> {selectedProduct?.descripcion} <br />
+                            <strong>Precio Unitario:</strong> {selectedProduct?.precio_unitario} <br />
+                            <strong>Bodega:</strong> {selectedProduct?.warehouse_name} <br />
+                        </p>
+                    </div>
+                    <div className="flex justify-end p-4 border-t border-gray-200">
+                        <button
+                            onClick={handleCloseModal}
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
             </Modal>
             <ConfirmModal
                 descripcion={`¿Estás seguro que deseas eliminar el producto?`}
