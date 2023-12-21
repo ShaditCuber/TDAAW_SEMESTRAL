@@ -35,6 +35,10 @@ const LogedInRoutes = () => {
                 <Route path="/" element={<Home />} />
                 <Route path="/inventario" element={<Inventory />} />
                 <Route path="/productos" element={<Products />} />
+                <Route path="/bodegas" element={<Warehouses />} />
+                <Route path="/inventario/historial/:id" element={<History />} />
+                <Route path="*" element={<Error />} />
+
             </Routes>
         </>
     );

@@ -1,15 +1,110 @@
+import React from 'react';
+import { Bar, Line, Doughnut } from 'react-chartjs-2';
+import { useWarehousesLimit } from '../../queries/warehouse/WarehouseQuery';
+import {
+    Chart as ChartJS,
+    CategoryScale,
+    LinearScale,
+    RadialLinearScale,
+    BarElement,
+    LineElement,
+    PointElement,
+    ArcElement,
+    RadarController,
+    DoughnutController,
+    PieController,
+    LineController,
+    BarController,
+    Tooltip,
+    Legend
+} from 'chart.js';
+import { set } from 'react-hook-form';
+import { useProductsLimit } from '../../queries/product/ProductQuery';
+import { useStockWarehouse } from '../../queries/stocks/StockQuery';
+import { Box, CircularProgress } from '@mui/material';
+
+ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    RadialLinearScale, // Asegúrate de incluir RadialLinearScale
+    BarElement,
+    LineElement,
+    PointElement,
+    ArcElement,
+    RadarController,
+    DoughnutController,
+    PieController,
+    LineController,
+    BarController,
+    Tooltip,
+    Legend
+);
+
+
+
 export const Home = () => {
+
+
+    // obtener los datos de la bodega con fetchWarehousesLimit
+    const [bodegas, setBodegas] = React.useState([]);
+    const [productos, setProductos] = React.useState([]);
+    const [stock, setStock] = React.useState([]);
+    const { data: bodegasData, isLoading, isError, error } = useWarehousesLimit();
+    // const { data: stock, } = useStockWarehouse(1);
+    const { data: products } = useProductsLimit();
+
+
+
+
+
+    React.useEffect(() => {
+        if (bodegasData) {
+            setBodegas(bodegasData.map((bodega) => bodega.nombre_bodega))
+        }
+    }, [bodegasData]);
+
+    React.useEffect(() => {
+        if (products) {
+            setProductos(products?.map((product) => product.nombre))
+        }
+    }, [products]);
+
+    React.useEffect(() => {
+        if (stock) {
+            setStock(products?.map((product) => product.inventory_count))
+        }
+    }, [stock]);
+
+    //obtener 
+
+    const stockProductosData = {
+        labels: productos,
+        datasets: [{
+            label: 'Stock por Producto',
+            data: stock,
+            backgroundColor: ['rgba(255, 99, 132, 0.5)', 'rgba(54, 162, 235, 0.5)', 'rgba(255, 206, 86, 0.5)', 'rgba(75, 192, 192, 0.5)'],
+        }]
+    };
+
+
+    if (isLoading) return (
+        <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
+            <CircularProgress />
+        </Box>
+    )
+    if (isError) return <div>Error al cargar los productos</div>;
+
+
+
     return (
-        <div className="grid grid-cols-5 grid-rows-5 gap-4">
-            <div className="bg-white h-full w-full" >1</div>
-            <div className="bg-white h-full w-full" >2</div>
-            <div className="bg-white h-full w-full row-span-5">Lorem ipsum dolor sit amet consectetur adipisicing elit. Harum voluptate quod sed necessitatibus iure impedit velit asperiores deserunt facere sunt quo id distinctio veniam, aspernatur, delectus laborum, voluptates autem voluptatum?</div>
-            <div className="bg-white h-full w-full row-span-3 col-start-1 row-start-2">Lorem, ipsum dolor sit amet consectetur adipisicing elit. Veritatis sed itaque at ducimus dolorum! Amet aliquid possimus omnis natus praesentium cum id perspiciatis, maxime quisquam inventore repudiandae. Sapiente, amet dolor. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Maxime dicta sit ab provident consectetur consequuntur hic eligendi dolorem libero, nam modi unde nulla aperiam? Culpa, commodi atque. Suscipit, nulla quidem?</div>
-            <div className="bg-white h-full w-full row-span-2 col-start-2 row-start-2">7</div>
-            <div className="bg-white h-full w-full col-span-2 col-start-1 row-start-5">8</div>
-            <div className="bg-white h-full w-full col-start-2 row-start-4">9</div>
-            <div className="bg-white h-full w-full col-span-2 row-span-5 col-start-4 row-start-1">10</div>
+
+
+
+        <div className="grid grid-cols-4 grid-rows-3 gap-4">
+            <div className="col-span-4 row-span-6">
+                <Bar data={stockProductosData} />
+            </div>
         </div>
 
     );
-}
+};

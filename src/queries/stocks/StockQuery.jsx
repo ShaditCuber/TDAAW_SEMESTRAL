@@ -21,6 +21,10 @@ export const useResume = () => {
     return useQuery(['resume', resume], () => resume());
 };
 
+const fetchStockWarehouse = async (warehouse_id) => {
+    const { data } = await clienteAxios.get(`/stock/read?warehouse_id=${warehouse_id}`);
+    return data;
+}
 
 // Utilizamos useMutation para crear un nuevo stock ya que necesitamos invalidar la cache de resume
 export const useCreateStock = () => {
@@ -35,4 +39,8 @@ export const useCreateStock = () => {
 
 export const useStock = (product_id) => {
     return useQuery(['stock', product_id], () => fetchStock(product_id));
+};
+
+export const useStockWarehouse = (warehouse_id) => {
+    return useQuery(['stock', warehouse_id], () => fetchStockWarehouse(warehouse_id));
 };

@@ -25,7 +25,7 @@ const updateProduct = async (formData) => {
 
 const fetchProductLimit = async () => {
     const { data } = await clienteAxios.get(`/products/read?limit=100000`);
-    return data;
+    return data.data;
 }
 
 export const useProducts = (page) => {

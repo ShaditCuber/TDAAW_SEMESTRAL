@@ -113,7 +113,7 @@ const Inventory = () => {
                 handleClose={onCloseModal}
                 handleSubmit={handleSubmit}
                 initialFormData={formData}
-                productsData={products.data}
+                productsData={products}
             />
         </Box>
     );

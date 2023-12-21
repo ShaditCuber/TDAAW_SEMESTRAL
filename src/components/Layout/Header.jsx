@@ -18,7 +18,7 @@ const Header = () => {
                         <div>
                             <p className="text-xs">
                                 {/* <strong className="block font-medium">{username}</strong> */}
-                                <strong className="block font-medium">Poto</strong>
+                                <strong className="block font-medium">TDAAW</strong>
                             </p>
                         </div>
                     </a>
