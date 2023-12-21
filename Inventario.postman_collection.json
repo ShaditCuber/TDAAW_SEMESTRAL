@@ -1,0 +1,776 @@
+{
+	"info": {
+		"_postman_id": "8a7696c8-a677-4957-ba7e-dcf92ab23cb4",
+		"name": "Inventario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24821090"
+	},
+	"item": [
+		{
+			"name": "Bodega",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/warehouse/create?nombre_bodega=B&=",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"warehouse",
+								"create"
+							],
+							"query": [
+								{
+									"key": "nombre_bodega",
+									"value": "B"
+								},
+								{
+									"key": "",
+									"value": ""
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/warehouse/read",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"warehouse",
+								"read"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "limit",
+									"value": "1000",
+									"disabled": true
+								},
+								{
+									"key": "nombre_bodega",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "direccion_bodega",
+									"value": "Sin direccion",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre_bodega",
+									"value": "F",
+									"type": "text"
+								},
+								{
+									"key": "descripcion_bodega",
+									"value": "xd",
+									"type": "text"
+								},
+								{
+									"key": "direccion_bodega",
+									"value": "fcita 123",
+									"type": "text"
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/warehouse/update",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"warehouse",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/warehouse/delete?id=2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"warehouse",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Productos",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre",
+									"value": "aaaabxd111",
+									"type": "text"
+								},
+								{
+									"key": "warehouse_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "precio_unitario",
+									"value": "-1",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/products/create",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"products",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/products/read?limit=10000",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"products",
+								"read"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "10000"
+								},
+								{
+									"key": "nombre",
+									"value": "prueba",
+									"disabled": true
+								},
+								{
+									"key": "precio_unitario",
+									"value": "1000",
+									"disabled": true
+								},
+								{
+									"key": "id",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/products/delete?id=6",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"products",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "id",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "nombre",
+									"value": "Felipe",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/products/update",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"products",
+								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Restore",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/products/restore?id=2",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"products",
+								"restore"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Stock",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre",
+									"value": "1223",
+									"type": "text"
+								},
+								{
+									"key": "warehouse_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "precio_unitario",
+									"value": "100000",
+									"type": "text"
+								},
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": "caso_de_uso.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/stock/create?product_id=3&cantidad=100&tipo=entrada",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"stock",
+								"create"
+							],
+							"query": [
+								{
+									"key": "product_id",
+									"value": "3"
+								},
+								{
+									"key": "cantidad",
+									"value": "100"
+								},
+								{
+									"key": "tipo",
+									"value": "entrada"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/stock/read",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"stock",
+								"read"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "20",
+									"disabled": true
+								},
+								{
+									"key": "tipo",
+									"value": "entrada",
+									"disabled": true
+								},
+								{
+									"key": "product_id",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "warehouse_id",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Resume",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/stock/resume",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"stock",
+								"resume"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "20",
+									"disabled": true
+								},
+								{
+									"key": "tipo",
+									"value": "entrada",
+									"disabled": true
+								},
+								{
+									"key": "product_id",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "warehouse_id",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/stock/delete?id=4",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"stock",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "4"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Movements",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nombre",
+									"value": "1223",
+									"type": "text"
+								},
+								{
+									"key": "warehouse_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "precio_unitario",
+									"value": "100000",
+									"type": "text"
+								},
+								{
+									"key": "imagen",
+									"type": "file",
+									"src": "caso_de_uso.png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/stock/create?product_id=5&cantidad=1&tipo=salida",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"stock",
+								"create"
+							],
+							"query": [
+								{
+									"key": "product_id",
+									"value": "5"
+								},
+								{
+									"key": "cantidad",
+									"value": "1"
+								},
+								{
+									"key": "tipo",
+									"value": "salida"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Read",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/stock/read",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"stock",
+								"read"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "tipo",
+									"value": "salida",
+									"disabled": true
+								},
+								{
+									"key": "product_id",
+									"value": "5",
+									"disabled": true
+								},
+								{
+									"key": "warehouse_id",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/movements/delete?id=1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"movements",
+								"delete"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/auth/login?email=1@gmail.com&password=123",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"login"
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "1@gmail.com"
+								},
+								{
+									"key": "password",
+									"value": "123"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Registro",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/auth/registro/?email=1@gmail.com&password=123&name=poto",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"registro",
+								""
+							],
+							"query": [
+								{
+									"key": "email",
+									"value": "1@gmail.com"
+								},
+								{
+									"key": "password",
+									"value": "123"
+								},
+								{
+									"key": "name",
+									"value": "poto"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/auth/logout",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"auth",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/user",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Actualizar",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/user/actualizar?perro_id=b87b8623-f71a-4850-91f9-e48793b13617",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"user",
+								"actualizar"
+							],
+							"query": [
+								{
+									"key": "perro_id",
+									"value": "b87b8623-f71a-4850-91f9-e48793b13617"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDAvYXBpL2F1dGgvbG9naW4iLCJpYXQiOjE3MDI4NjIwNjksImV4cCI6MTcwMjg2NTY2OSwibmJmIjoxNzAyODYyMDY5LCJqdGkiOiJoeWFSTlM1MUdLbHRjUEFiIiwic3ViIjoiMSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.cQdF6xFxPa5bXmhvdI08PGuG8fAnLNwHUq8rAACRmik",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://127.0.0.1:8000/api"
+		}
+	]
+}
