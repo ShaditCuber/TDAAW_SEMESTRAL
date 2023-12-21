@@ -6,9 +6,10 @@ import { useState } from 'react';
 import { useCreateStock, useResume } from '../../queries/stocks/StockQuery';
 import ModalInventory from './ModalInventory';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 
 const Inventory = () => {
-
+    const navigate = useNavigate();
     const [page, setPage] = useState(1);
     const [open, setOpen] = useState(false);
     const [formData, setFormData] = useState({ product_name: '', tipo: '', cantidad: '' });
@@ -24,13 +25,16 @@ const Inventory = () => {
     };
 
     const onOpenModal = () => {
-        setFormData({ product_name: '', tipo: 'seleccione', cantidad: '' });
+        setFormData({ product_name: '', tipo: 'seleccione', cantidad: '' , observaciones: ''});
         setOpen(true);
     }
 
     const onCloseModal = () => {
         setOpen(false);
-    }
+    }   
+
+    console.log()
+
 
     const handleSubmit = async (formData) => {
 
@@ -38,9 +42,8 @@ const Inventory = () => {
         data.append('product_name', formData.product_name);
         data.append('tipo', formData.tipo);
         data.append('cantidad', formData.cantidad);
+        data.append('observaciones', formData.observaciones);
 
-        console.log(formData)
-        console.log('xd')
 
         createStockMutation.mutate(formData, {
             onSuccess: (data) => {
@@ -60,6 +63,12 @@ const Inventory = () => {
             product_name: product.nombre,
         });
         setOpen(true);
+    }
+
+    const showHistory = (product) => {
+        console.log(product)
+        // window.location = `/inventario/historial/${product.id}`;
+        navigate(`/inventario/historial/${product}`);
     }
 
 
@@ -82,6 +91,7 @@ const Inventory = () => {
                     <TableInventory
                         inventory={productsData.data}
                         inventoryModal={inventoryModal}
+                        showHistory={showHistory}
                     />
                     <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
                         <Button onClick={() => handleChangePage(page - 1)} disabled={page === 1}>

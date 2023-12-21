@@ -4,7 +4,6 @@ import { Box, Typography, Divider } from '@mui/material';
 import axios from 'axios'; 
 const Overview = ({overview}) => {
     
-    console.log(overview)
     return (
         <Box sx={{ bgcolor: 'white', p: 2, width: '100%', height: '100%' }}>
             <Typography variant="h6" sx={{ mb: 2 }}>

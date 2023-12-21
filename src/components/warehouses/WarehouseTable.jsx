@@ -96,14 +96,30 @@ const WarehouseTable = ({ warehouse, handleDelete, warehouseModal }) => {
                 onClose={handleCloseModal}
                 aria-labelledby="warehouse-history-title"
                 aria-describedby="warehouse-history-description"
+                className="flex items-center justify-center p-4"
             >
-                <Box sx={style}>
-                    <h2 id="warehouse-history-title">Historial de bodega</h2>
-                    <p id="warehouse-history-description">
-                        ID: {selectedWarehouse?.id}<br />
-                        Nombre: {selectedWarehouse?.nombre_bodega}
-                    </p>
-                </Box>
+                <div className="bg-white rounded-lg shadow-xl w-80">
+                    <div className="p-4 border-b border-gray-200">
+                        <h2 id="warehouse-history-title" className="text-lg font-semibold text-gray-700">
+                            Datos de bodega
+                        </h2>
+                    </div>
+                    <div className="p-4">
+                        <p id="warehouse-history-description" className="text-gray-600">
+                            <strong>Nombre:</strong> {selectedWarehouse?.nombre_bodega} <br />
+                            <strong>Descripcion:</strong> {selectedWarehouse?.descripcion_bodega} <br />
+                            <strong>Direccion:</strong> {selectedWarehouse?.direccion_bodega}
+                        </p>
+                    </div>
+                    <div className="flex justify-end p-4 border-t border-gray-200">
+                        <button
+                            onClick={handleCloseModal}
+                            className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 focus:outline-none focus:ring focus:ring-blue-300 focus:ring-opacity-50"
+                        >
+                            Cerrar
+                        </button>
+                    </div>
+                </div>
             </Modal>
 
             <ConfirmModal

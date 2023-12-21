@@ -98,23 +98,25 @@ const Products = () => {
                 Añadir Producto
             </Button>
             
-            <Grid container spacing={2} sx={{ width: '100%' }}>
-                <Grid item xs={12}>
-                    <ProductTable
-                        inventory={productsData.data}
-                        handleDelete={handleDelete}
-                        productModal={productModal}
-                    />
+            {productsData?.data?.length > 0 ? <>
+                <Grid container spacing={2} sx={{ width: '100%' }}>
+                    <Grid item xs={12}>
+                        <ProductTable
+                            inventory={productsData.data}
+                            handleDelete={handleDelete}
+                            productModal={productModal}
+                        />
+                    </Grid>
                 </Grid>
-            </Grid>
-            <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
-                <Button onClick={() => handleChangePage(page - 1)} disabled={page === 1}>
-                    Anterior
-                </Button>
-                <Button onClick={() => handleChangePage(page + 1)} disabled={productsData?.meta?.last_page === page}>
-                    Siguiente
-                </Button>
-            </Box>
+                <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+                    <Button onClick={() => handleChangePage(page - 1)} disabled={page === 1}>
+                        Anterior
+                    </Button>
+                    <Button onClick={() => handleChangePage(page + 1)} disabled={productsData?.meta?.last_page === page}>
+                        Siguiente
+                    </Button>
+                </Box>
+            </> : <div>No hay productos</div> }
             <ModalProduct
                 open={open}
                 handleClose={onCloseModal}

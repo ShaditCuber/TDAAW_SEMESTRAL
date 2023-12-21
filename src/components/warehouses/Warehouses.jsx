@@ -87,6 +87,8 @@ const Warehouses = () => {
 
     if (isError) return <div>Error al cargar las bodegas</div>;
     
+
+
     return (
         <Box sx={{ flexGrow: 1, width: '100%', height: '100%' }}>
             <Toolbar />
@@ -102,23 +104,27 @@ const Warehouses = () => {
                 handleSubmit={handleSubmit}
                 initialFormData={formData}
             />
-            <Grid container spacing={2} sx={{ width: '100%' }}>
-                <Grid item xs={12}>
-                    <WarehouseTable
-                        warehouse={warehousesData.data}
-                        handleDelete={handleDelete}
-                        warehouseModal={warehouseModal}
-                    />
-                </Grid>
-            </Grid>
-            <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
-                <Button onClick={() => handleChangePage(page - 1)} disabled={page === 1}>
-                    Anterior
-                </Button>
-                <Button onClick={() => handleChangePage(page + 1)} disabled={warehousesData?.last_page === page}>
-                    Siguiente
-                </Button>
-            </Box>
+            {warehousesData?.data?.length > 0 ?
+                <>
+                    <Grid container spacing={2} sx={{ width: '100%' }}>
+                        <Grid item xs={12}>
+                            <WarehouseTable
+                                warehouse={warehousesData.data}
+                                handleDelete={handleDelete}
+                                warehouseModal={warehouseModal}
+                            />
+                        </Grid>
+                    </Grid>
+                    <Box sx={{ display: 'flex', justifyContent: 'center', p: 2 }}>
+                        <Button onClick={() => handleChangePage(page - 1)} disabled={page === 1}>
+                            Anterior
+                        </Button>
+                        <Button onClick={() => handleChangePage(page + 1)} disabled={warehousesData?.last_page === page}>
+                            Siguiente
+                        </Button>
+                    </Box>    
+            </> : <div>No hay bodegas</div>
+                }
         </Box>
     );
 };

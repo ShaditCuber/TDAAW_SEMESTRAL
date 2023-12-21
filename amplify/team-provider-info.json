@@ -10,6 +10,14 @@
       "StackName": "amplify-inventario-main-194717",
       "StackId": "arn:aws:cloudformation:us-east-1:751934134052:stack/amplify-inventario-main-194717/bf3c2570-9f89-11ee-a165-0a143d7466c3",
       "AmplifyAppId": "d1bedjlzcncosa"
+    },
+    "categories": {
+      "hosting": {
+        "amplifyhosting": {
+          "appId": "d1bedjlzcncosa",
+          "type": "cicd"
+        }
+      }
     }
   }
 }

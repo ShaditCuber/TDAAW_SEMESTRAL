@@ -33,16 +33,25 @@ const ModalInventory = ({ open, handleClose, productsData, handleSubmit, initial
         setFormData({
             product_name: '',
             cantidad: '',
+            observaciones: '',
         });
     };
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
 
+        if (formData.tipo === 'salida') {
+            if (formData.cantidad >= productsData[0].inventory_count) {
+                toast.error('La cantidad no puede ser mayor al inventario');
+                return;
+            }
+        }
+
         if (!formData.tipo || !formData.cantidad) {
             toast.error('Todos los campos son obligatorios');
             return;
         }
+        
         formData.product_id = formData.id;
         handleSubmit(formData);
         resetInputs();
@@ -100,6 +109,15 @@ const ModalInventory = ({ open, handleClose, productsData, handleSubmit, initial
                     fullWidth
                     inputProps={{ min: "1", step: "1" }}
                 />
+                <TextField
+                    name="observaciones"
+                    label="Observaciones"
+                    type="text"
+                    onChange={handleInputChange}
+                    margin="normal"
+                    fullWidth
+                />
+
                 <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
                     <Button variant="contained" sx={{ mt: 2, background: 'red' }} onClick={handleClose}>
                         Salir
